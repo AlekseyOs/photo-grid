@@ -163,27 +163,35 @@
             // Находим все изображения с атрибутом data-src
             const lazyImages = document.querySelectorAll('img[data-src]');
             
-            // Создаём наблюдатель для IntersectionObserver
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    // Если изображение пересекается с областью видимости
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        console.log('load', img);
-                        // Заменяем src на значение из data-src
-                        img.src = img.dataset.src;
-                        // Удаляем атрибут data-src
-                        img.removeAttribute('data-src');
-                        // Прекращаем наблюдение за этим изображением
-                        observer.unobserve(img);
-                    }
+            if ('IntersectionObserver' in window) {
+                // Создаём наблюдатель для IntersectionObserver
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        // Если изображение пересекается с областью видимости
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            console.log('load', img);
+                            // Заменяем src на значение из data-src
+                            img.src = img.dataset.src;
+                            // Удаляем атрибут data-src
+                            img.removeAttribute('data-src');
+                            // Прекращаем наблюдение за этим изображением
+                            observer.unobserve(img);
+                        }
+                    });
                 });
-            });
 
-            // Наблюдаем за каждым изображением
-            lazyImages.forEach(img => {
-                imageObserver.observe(img);
-            });
+                // Наблюдаем за каждым изображением
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
+            } else {
+                // Фолбэк для браузеров, не поддерживающих IntersectionObserver
+                lazyImages.forEach(img => {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                });
+            }
         });
     </script>
 </body>
