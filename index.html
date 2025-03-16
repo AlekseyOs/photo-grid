@@ -9,7 +9,7 @@
 <body>
     <div class="grid-container">
         <div class="grid-item">
-            <img src="./img/photo1.webp" alt="Photo 1" loading="lazy" data-src="./img/photo1.webp">
+            <img src="" alt="Photo 1" loading="lazy" data-src="./img/photo1.webp">
             <div class="overlay">
                 <div class="text">
                     <h3>Ikingi s3 pro</h3>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo2.jpg" alt="Photo 2" loading="lazy" data-src="./img/photo2.jpg">
+            <img src="" alt="Photo 2" loading="lazy" data-src="./img/photo2.jpg">
             <div class="overlay">
                 <div class="text">
                     <h3>Kugoo Kirin m4 11</h3>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo3.jpg" alt="Photo 3" loading="lazy" data-src="./img/photo3.jpg">
+            <img src="" alt="Photo 3" loading="lazy" data-src="./img/photo3.jpg">
             <div class="overlay">
                 <div class="text">
                     <h3>Kugoo Kirin m5</h3>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo4.png" alt="Photo 4" loading="lazy" data-src="./img/photo4.png">
+            <img src="" alt="Photo 4" loading="lazy" data-src="./img/photo4.png">
             <div class="overlay">
                 <div class="text">
                     <h3>Kugoo Kirin m5 Pro</h3>
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo5.jpg" alt="Photo 5" loading="lazy" data-src="./img/photo5.jpg">
+            <img src="" alt="Photo 5" loading="lazy" data-src="./img/photo5.jpg">
             <div class="overlay">
                 <div class="text">
                     <h3>Pulse XC-1</h3>
@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo6.png" alt="Photo 6" loading="lazy" data-src="./img/photo6.png">
+            <img src="" alt="Photo 6" loading="lazy" data-src="./img/photo6.png">
             <div class="overlay">
                 <div class="text">
                     <h3>Kugoo EC 02</h3>
@@ -104,7 +104,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo7.webp" alt="Photo 7" loading="lazy" data-src="./img/photo7.webp">
+            <img src="" alt="Photo 7" loading="lazy" data-src="./img/photo7.webp">
             <div class="overlay">
                 <div class="text">
                     <h3>KUGOO LX 9 PLUS</h3>
@@ -118,7 +118,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo8.webp" alt="Photo 7" loading="lazy" data-src="./img/photo8.webp">
+            <img src="" alt="Photo 7" loading="lazy" data-src="./img/photo8.webp">
             <div class="overlay">
                 <div class="text">
                     <h3>PLUS Monster 16/23</h3>
@@ -131,7 +131,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo9.jpg" alt="Photo 9" loading="lazy" data-src="./img/photo9.jpg">
+            <img src="" alt="Photo 9" loading="lazy" data-src="./img/photo9.jpg">
             <div class="overlay">
                 <div class="text">
                     <h3>Kugoo v3 pro</h3>
@@ -144,7 +144,7 @@
             </div>
         </div>
         <div class="grid-item">
-            <img src="./img/photo10.jpg" alt="Photo 9" loading="lazy" data-src="./img/photo10.jpg">
+            <img src="" alt="Photo 9" loading="lazy" data-src="./img/photo10.jpg">
             <div class="overlay">
                 <div class="text">
                     <h3>Seceeba F10 H1</h3>
@@ -158,19 +158,28 @@
         </div>
     </div>
     <script>
+        // Ждём полной загрузки DOM
         document.addEventListener("DOMContentLoaded", function() {
+            // Находим все изображения с атрибутом data-src
             const lazyImages = document.querySelectorAll('img[data-src]');
+            
+            // Создаём наблюдатель для IntersectionObserver
             const imageObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
+                    // Если изображение пересекается с областью видимости
                     if (entry.isIntersecting) {
                         const img = entry.target;
+                        // Заменяем src на значение из data-src
                         img.src = img.dataset.src;
+                        // Удаляем атрибут data-src
                         img.removeAttribute('data-src');
+                        // Прекращаем наблюдение за этим изображением
                         observer.unobserve(img);
                     }
                 });
             });
 
+            // Наблюдаем за каждым изображением
             lazyImages.forEach(img => {
                 imageObserver.observe(img);
             });
