@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         lazyImages.forEach(function(lazyImage) {
             lazyImageObserver.observe(lazyImage);
+            console.log('observe', lazyImage);
         });
     } else {
         loadImagesImmediately(lazyImages);
