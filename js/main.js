@@ -1,27 +1,43 @@
 document.addEventListener("DOMContentLoaded", function() {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    console.log(lazyImages);
 
     if ("IntersectionObserver" in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    let lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.removeAttribute('loading');
-                    lazyImageObserver.unobserve(lazyImage);
-                }
-            });
-        });
+        let lazyImageObserver = new IntersectionObserver(onIntersection);
 
         lazyImages.forEach(function(lazyImage) {
             lazyImageObserver.observe(lazyImage);
         });
     } else {
-        // Fallback for browsers that do not support IntersectionObserver
-        lazyImages.forEach(function(lazyImage) {
+        loadImagesImmediately(lazyImages);
+    }
+
+    setupToggleButtons();
+});
+
+function onIntersection(entries, observer) {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            let lazyImage = entry.target;
             lazyImage.src = lazyImage.dataset.src;
             lazyImage.removeAttribute('loading');
+            observer.unobserve(lazyImage);
+        }
+    });
+}
+
+function loadImagesImmediately(images) {
+    images.forEach(function(image) {
+        image.src = image.dataset.src;
+        image.removeAttribute('loading');
+    });
+}
+
+function setupToggleButtons() {
+    document.querySelectorAll('.toggle-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const overlay = button.nextElementSibling;
+            overlay.classList.toggle('visible');
+            button.textContent = overlay.classList.contains('visible') ? 'Скрыть описание' : 'Показать описание';
         });
-    }
-});
+    });
+}
