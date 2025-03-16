@@ -169,6 +169,7 @@
                     // Если изображение пересекается с областью видимости
                     if (entry.isIntersecting) {
                         const img = entry.target;
+                        console.log('load', img);
                         // Заменяем src на значение из data-src
                         img.src = img.dataset.src;
                         // Удаляем атрибут data-src
